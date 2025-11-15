@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import userModel from '../models/User.js';
 import transporter from '../config/nodemailer.js';
 import { EMAIL_VERIFY_TEMPLATE } from '../config/emailTemplate.js';
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -34,14 +36,21 @@ export const register = async (req, res) => {
         })
 
         //Sending welcome email
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
-            to: email,
-            subject: 'welcome to MernAuth',
-            text: `Welcome to MernAuth! You have successfully registered with email id: ${email}. Please login to continue.`
-        }
+        // const mailOptions = {
+        //     from: process.env.SENDER_EMAIL,
+        //     to: email,
+        //     subject: 'welcome to MernAuth',
+        //     text: `Welcome to MernAuth! You have successfully registered with email id: ${email}. Please login to continue.`
+        // }
 
-        await transporter.sendMail(mailOptions);
+        // await transporter.sendMail(mailOptions);
+
+        await resend.emails.send({
+            from: "MernAuth <onboarding@resend.dev>",
+            to: email,
+            subject: "Welcome to MernAuth",
+            text: `Welcome to MernAuth! You have successfully registered with email: ${email}. Please login to continue.`,
+        });
 
         res.status(200).json({ success: true, message: "User registered successfully" });
     } catch (error) {
@@ -110,15 +119,24 @@ export const sendVerifyOtp = async (req, res) => {
 
         await user.save();
 
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
+        // const mailOptions = {
+        //     from: process.env.SENDER_EMAIL,
+        //     to: user.email,
+        //     subject: 'Verify your email',
+        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+
+        // }
+
+        // await transporter.sendMail(mailOptions);
+
+        await resend.emails.send({
+            from: "Auth App <onboarding@resend.dev>",
             to: user.email,
-            subject: 'Verify your email',
-            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-
-        }
-
-        await transporter.sendMail(mailOptions);
+            subject: "Verify your Email",
+            html: EMAIL_VERIFY_TEMPLATE
+                .replace("{{otp}}", otp)
+                .replace("{{email}}", user.email),
+        });
         res.status(200).json({ success: true, message: "Verification OTP sent successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -186,15 +204,23 @@ export const sendResetOtp = async (req, res) => {
 
         await user.save();
 
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
+        // const mailOptions = {
+        //     from: process.env.SENDER_EMAIL,
+        //     to: user.email,
+        //     subject: 'Reset your password',
+        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+        // }
+        // await transporter.sendMail(mailOptions);
+
+        await resend.emails.send({
+            from: "Auth App <onboarding@resend.dev>",
             to: user.email,
-            subject: 'Reset your password',
-            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+            subject: "Reset your password",
+            html: EMAIL_VERIFY_TEMPLATE
+                .replace("{{otp}}", otp)
+                .replace("{{email}}", user.email),
+        });
 
-        }
-
-        await transporter.sendMail(mailOptions);
         res.status(200).json({ success: true, message: "Reset OTP sent successfully" });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message });
