@@ -8,4 +8,10 @@ const transporter = nodemailer.createTransport({
     }
 })
 
+transporter.verify(function(err, success) {
+    if (err) console.log('SMTP Verification Error:', err);
+    else console.log('SMTP Server ready to send emails');
+});
+
+
 export default transporter;
