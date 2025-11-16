@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/User.js';
 import { EMAIL_VERIFY_TEMPLATE } from '../config/emailTemplate.js';
-import { Resend } from 'resend';
-const resend = new Resend(process.env.RESEND_API_KEY);
+// import { Resend } from 'resend';
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -35,19 +35,26 @@ export const register = async (req, res) => {
         })
 
         // Sending welcome email
-        try {
-            
-            const mailOptions = {
-                from: process.env.SENDER_EMAIL,
-                to: email,
-                subject: 'welcome to MernAuth',
-                text: `Welcome to MernAuth! You have successfully registered with email id: ${email}. Please login to continue.`
-            }
-    
-            await transporter.sendMail(mailOptions);
-        } catch (error) {
-            console.log(error);
-        }
+        await transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: user.email,
+            subject: 'welcome to authMern',
+            text: `Welcome to authMern! You have successfully registered with email id: ${email}. Please login to continue.`
+        });
+
+        // try {
+
+        //     const mailOptions = {
+        //         from: process.env.SENDER_EMAIL,
+        //         to: email,
+        //         subject: 'welcome to MernAuth',
+        //         text: `Welcome to MernAuth! You have successfully registered with email id: ${email}. Please login to continue.`
+        //     }
+
+        //     await transporter.sendMail(mailOptions);
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
         // await resend.emails.send({
         //     from: "MernAuth <onboarding@resend.dev>",
@@ -123,20 +130,28 @@ export const sendVerifyOtp = async (req, res) => {
 
         await user.save();
 
-        try {
-            
-            const mailOptions = {
-                from: process.env.SENDER_EMAIL,
-                to: user.email,
-                subject: 'Verify your email',
-                html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-    
-            }
-    
-            await transporter.sendMail(mailOptions);
-        } catch (error) {
-            console.log(error)
-        }
+        await transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: user.email,
+            subject: 'Verify your Email',
+            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+        });
+
+
+        // try {
+
+        //     const mailOptions = {
+        //         from: process.env.SENDER_EMAIL,
+        //         to: user.email,
+        //         subject: 'Verify your email',
+        //         html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+
+        //     }
+
+        //     await transporter.sendMail(mailOptions);
+        // } catch (error) {
+        //     console.log(error)
+        // }
 
         // await resend.emails.send({
         //     from: "Auth App <onboarding@resend.dev>",
@@ -213,13 +228,21 @@ export const sendResetOtp = async (req, res) => {
 
         await user.save();
 
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
+        await transporter.sendMail({
+            from: process.env.SMTP_USER,
             to: user.email,
-            subject: 'Reset your password',
+            subject: 'Verify your Email',
             html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-        }
-        await transporter.sendMail(mailOptions);
+        });
+
+
+        // const mailOptions = {
+        //     from: process.env.SENDER_EMAIL,
+        //     to: user.email,
+        //     subject: 'Reset your password',
+        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+        // }
+        // await transporter.sendMail(mailOptions);
 
         // await resend.emails.send({
         //     from: "Auth App <onboarding@resend.dev>",
