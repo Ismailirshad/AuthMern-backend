@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import userModel from '../models/User.js';
 import { EMAIL_VERIFY_TEMPLATE } from '../config/emailTemplate.js';
 import transporter from '../config/nodemailer.js';
-import brevo from "../config/brevo.js";
+import brevo from "../config/nodemailer.js";
 // import { Resend } from 'resend';
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
