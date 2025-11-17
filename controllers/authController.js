@@ -146,14 +146,22 @@ export const sendVerifyOtp = async (req, res) => {
         //     subject: 'Verify your Email',
         //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
         // });
- await brevo.sendTransacEmail({
-            sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
-            to: [{ email: user.email }],
-            subject: "Verify your Email",
-            htmlContent: EMAIL_VERIFY_TEMPLATE
-                .replace("{{otp}}", otp)
-                .replace("{{email}}", user.email)
-        });
+try {
+    const response = await brevo.sendTransacEmail({
+        sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
+        to: [{ email: user.email }],
+        subject: "Verify your Email",
+        htmlContent: EMAIL_VERIFY_TEMPLATE
+            .replace("{{otp}}", otp)
+            .replace("{{email}}", user.email)
+    });
+
+    console.log("BREVO RESPONSE:", response);
+
+} catch (err) {
+    console.log("BREVO ERROR:", err);
+    return res.status(500).json({ success: false, message: err.message });
+}
 
         // try {
 
