@@ -24,16 +24,16 @@
 
 // export default transporter;
 
-import * as Brevo from "@getbrevo/brevo";
+import SibApiV3Sdk from "@getbrevo/brevo";
 
-const client = Brevo.ApiClient.instance;
+const client = SibApiV3Sdk.ApiClient.instance;
 
-// Set API Key
 client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
 const brevo = new SibApiV3Sdk.TransactionalEmailsApi();
 
 export default brevo;
+
 
 
 // import SibApiV3Sdk from "@getbrevo/brevo";
