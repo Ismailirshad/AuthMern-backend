@@ -34,6 +34,8 @@ const brevo = new SibApiV3Sdk.TransactionalEmailsApi();
 
 export default brevo;
 
+console.log("BREVO_KEY_LOADED:", !!process.env.BREVO_API_KEY);
+
 
 
 // import SibApiV3Sdk from "@getbrevo/brevo";
