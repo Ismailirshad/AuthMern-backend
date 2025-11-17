@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/User.js';
 import { EMAIL_VERIFY_TEMPLATE } from '../config/emailTemplate.js';
-import transporter from '../config/nodemailer.js';
-import brevo from "../config/nodemailer.js";
+// import transporter from '../config/nodemailer.js';
+import brevo from "../config/brevo.js";
 // import { Resend } from 'resend';
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -37,11 +37,19 @@ export const register = async (req, res) => {
         })
 
         // Sending welcome email
-        await transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to: user.email,
-            subject: 'welcome to authMern',
-            text: `Welcome to authMern! You have successfully registered with email id: ${email}. Please login to continue.`
+        // await transporter.sendMail({
+        //     from: process.env.SMTP_USER,
+        //     to: user.email,
+        //     subject: 'welcome to authMern',
+        //     text: `Welcome to authMern! You have successfully registered with email id: ${email}. Please login to continue.`
+        // });
+         await brevo.sendTransacEmail({
+            sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
+            to: [{ email: user.email }],
+            subject: "Verify your Email",
+            htmlContent: EMAIL_VERIFY_TEMPLATE
+                .replace("{{otp}}", otp)
+                .replace("{{email}}", user.email)
         });
 
         // try {
@@ -132,13 +140,20 @@ export const sendVerifyOtp = async (req, res) => {
 
         await user.save();
 
-        await transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to: user.email,
-            subject: 'Verify your Email',
-            html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+        // await transporter.sendMail({
+        //     from: process.env.SMTP_USER,
+        //     to: user.email,
+        //     subject: 'Verify your Email',
+        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
+        // });
+ await brevo.sendTransacEmail({
+            sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
+            to: [{ email: user.email }],
+            subject: "Verify your Email",
+            htmlContent: EMAIL_VERIFY_TEMPLATE
+                .replace("{{otp}}", otp)
+                .replace("{{email}}", user.email)
         });
-
 
         // try {
 
