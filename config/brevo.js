@@ -24,9 +24,9 @@
 
 // export default transporter;
 
-import SibApiV3Sdk from "@getbrevo/brevo";
+import * as Brevo from "@getbrevo/brevo";
 
-const client = SibApiV3Sdk.ApiClient.instance;
+const client = Brevo.ApiClient.instance;
 
 // Set API Key
 client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
