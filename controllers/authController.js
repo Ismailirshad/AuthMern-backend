@@ -1,11 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userModel from '../models/User.js';
-import { EMAIL_VERIFY_TEMPLATE } from '../config/emailTemplate.js';
-// import transporter from '../config/nodemailer.js';
 import brevo from "../config/brevo.js";
-// import { Resend } from 'resend';
-// const resend = new Resend(process.env.RESEND_API_KEY);
+import { VERIFY_EMAIL_TEMPLATE } from '../config/emailVerifyTemplate.js';
+import { FORGOT_PASSWORD_TEMPLATE } from '../config/forgotPasswordTemplate.js';
 
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -36,42 +34,12 @@ export const register = async (req, res) => {
             maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         })
 
-        // Sending welcome email
-        // await transporter.sendMail({
-        //     from: process.env.SMTP_USER,
-        //     to: user.email,
-        //     subject: 'welcome to authMern',
-        //     text: `Welcome to authMern! You have successfully registered with email id: ${email}. Please login to continue.`
-        // });
-         await brevo.sendTransacEmail({
+        await brevo.sendTransacEmail({
             sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
             to: [{ email: user.email }],
-            subject: "Verify your Email",
-            htmlContent: EMAIL_VERIFY_TEMPLATE
-                .replace("{{otp}}", otp)
-                .replace("{{email}}", user.email)
+            subject: 'welcome to authMern',
+            text: `Welcome to authMern! You have successfully registered with email id: ${email}. Please login to continue.`
         });
-
-        // try {
-
-        //     const mailOptions = {
-        //         from: process.env.SENDER_EMAIL,
-        //         to: email,
-        //         subject: 'welcome to MernAuth',
-        //         text: `Welcome to MernAuth! You have successfully registered with email id: ${email}. Please login to continue.`
-        //     }
-
-        //     await transporter.sendMail(mailOptions);
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
-        // await resend.emails.send({
-        //     from: "MernAuth <onboarding@resend.dev>",
-        //     to: email,
-        //     subject: "Welcome to MernAuth",
-        //     text: `Welcome to MernAuth! You have successfully registered with email: ${email}. Please login to continue.`,
-        // });
 
         res.status(200).json({ success: true, message: "User registered successfully" });
     } catch (error) {
@@ -140,52 +108,23 @@ export const sendVerifyOtp = async (req, res) => {
 
         await user.save();
 
-        // await transporter.sendMail({
-        //     from: process.env.SMTP_USER,
-        //     to: user.email,
-        //     subject: 'Verify your Email',
-        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-        // });
-try {
-    const response = await brevo.sendTransacEmail({
-        sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
-        to: [{ email: user.email }],
-        subject: "Verify your Email",
-        htmlContent: EMAIL_VERIFY_TEMPLATE
-            .replace("{{otp}}", otp)
-            .replace("{{email}}", user.email)
-    });
+        try {
+            const response = await brevo.sendTransacEmail({
+                sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
+                to: [{ email: user.email }],
+                subject: "Verify your Email",
+                htmlContent: VERIFY_EMAIL_TEMPLATE
+                    .replace(/{{email}}/g, email)
+                    .replace(/{{otp}}/g, otp)
+            });
 
-    console.log("BREVO RESPONSE:", response);
+            console.log("BREVO RESPONSE:", response);
 
-} catch (err) {
-    console.log("BREVO ERROR:", err);
-    return res.status(500).json({ success: false, message: err.message });
-}
+        } catch (err) {
+            console.log("BREVO ERROR:", err);
+            return res.status(500).json({ success: false, message: err.message });
+        }
 
-        // try {
-
-        //     const mailOptions = {
-        //         from: process.env.SENDER_EMAIL,
-        //         to: user.email,
-        //         subject: 'Verify your email',
-        //         html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-
-        //     }
-
-        //     await transporter.sendMail(mailOptions);
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-        // await resend.emails.send({
-        //     from: "Auth App <onboarding@resend.dev>",
-        //     to: user.email,
-        //     subject: "Verify your Email",
-        //     html: EMAIL_VERIFY_TEMPLATE
-        //         .replace("{{otp}}", otp)
-        //         .replace("{{email}}", user.email),
-        // });
         res.status(200).json({ success: true, message: "Verification OTP sent successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -253,39 +192,14 @@ export const sendResetOtp = async (req, res) => {
 
         await user.save();
 
-        // await transporter.sendMail({
-        //     from: process.env.SMTP_USER,
-        //     to: user.email,
-        //     subject: 'Verify your Email',
-        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-        // });
         await brevo.sendTransacEmail({
             sender: { email: process.env.SENDER_EMAIL, name: "Ismail Irshad" },
             to: [{ email: user.email }],
             subject: "Verify your Email",
-            htmlContent: EMAIL_VERIFY_TEMPLATE
+            htmlContent:FORGOT_PASSWORD_TEMPLATE
                 .replace("{{otp}}", otp)
                 .replace("{{email}}", user.email)
         });
-
-
-
-        // const mailOptions = {
-        //     from: process.env.SENDER_EMAIL,
-        //     to: user.email,
-        //     subject: 'Reset your password',
-        //     html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
-        // }
-        // await transporter.sendMail(mailOptions);
-
-        // await resend.emails.send({
-        //     from: "Auth App <onboarding@resend.dev>",
-        //     to: user.email,
-        //     subject: "Reset your password",
-        //     html: EMAIL_VERIFY_TEMPLATE
-        //         .replace("{{otp}}", otp)
-        //         .replace("{{email}}", user.email),
-        // });
 
         res.status(200).json({ success: true, message: "Reset OTP sent successfully" });
     } catch (error) {

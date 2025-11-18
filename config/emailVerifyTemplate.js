@@ -1,4 +1,5 @@
-export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class="esd-stripe" style="background-color:rgb(250, 250, 250)">
+export const VERIFY_EMAIL_TEMPLATE = `
+<td bgcolor="#fafafa" align="center" class="esd-stripe" style="background-color:rgb(250, 250, 250)">
   <table esd-img-prev-src width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" class="es-content-body" style="background-color:rgb(255, 255, 255)">
     <tbody>
       <tr>
@@ -16,44 +17,40 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
                           </a>
                         </td>
                       </tr>
+
                       <tr>
                         <td align="center" class="esd-block-text es-p15t es-p15b">
-                          <h1 style="color:#333333;font-size:20px">
-                            <strong>FORGOT YOUR </strong>
-                          </h1>
-                          <h1 style="color:#333333;font-size:20px">
-                            <strong>&nbsp;PASSWORD?</strong>
-                          </h1>
+                          <h1 style="color:#333333;font-size:20px"><strong>FORGOT YOUR</strong></h1>
+                          <h1 style="color:#333333;font-size:20px"><strong>PASSWORD?</strong></h1>
                         </td>
                       </tr>
+
                       <tr>
                         <td align="left" class="esd-block-text es-p40r es-p40l">
-                          <p style="text-align:center">
-                            HI,{{email}}
-                          </p>
+                          <p style="text-align:center">HI, {{email}}</p>
                         </td>
                       </tr>
+
                       <tr>
                         <td align="left" class="esd-block-text es-p35r es-p40l">
-                          <p style="text-align:center">
-                            There was a request to change your password!
-                          </p>
+                          <p style="text-align:center">There was a request to change your password!</p>
                         </td>
                       </tr>
+
                       <tr>
                         <td align="center" class="esd-block-text es-p25t es-p40r es-p40l">
-                          <p>
-                            If did not make this request, just ignore this email. Otherwise, please refer the below otp to change your password:
-                          </p>
+                          <p>If you did not make this request, just ignore this email. Otherwise, please use the OTP below to change your password:</p>
                         </td>
                       </tr>
+
                       <tr>
                         <td align="center" class="esd-block-button es-p40t es-p40b es-p10r es-p10l">
-                          <span class="es-button-border">
-                          {{otp}}
+                          <span style="font-size:24px; font-weight:bold; padding:12px 20px; display:inline-block; background:#eeeeee; border-radius:8px;">
+                            {{otp}}
                           </span>
                         </td>
                       </tr>
+
                     </tbody>
                   </table>
                 </td>
@@ -62,20 +59,18 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
           </table>
         </td>
       </tr>
+
       <tr>
-        <td esd-img-prev-src esd-img-prev-position="center center" align="left" class="esd-structure es-p20t es-p10r es-p10l" style="background-position:center center">
-          <!--[if mso]><table width="580" cellpadding="0" cellspacing="0"><tr><td width="199" valign="top"><![endif]-->
+        <td align="left" class="esd-structure es-p20t es-p10r es-p10l">
           <table cellspacing="0" cellpadding="0" align="left" class="es-left">
             <tbody>
               <tr>
                 <td width="199" align="left" class="esd-container-frame">
-                  <table esd-img-prev-src esd-img-prev-position="center center" width="100%" cellspacing="0" cellpadding="0" style="background-position:center center">
+                  <table width="100%" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
                         <td align="right" class="esd-block-text es-p15t">
-                          <p class="es-m-txt-c" style="font-size:16px;color:#666666">
-                            <strong>Follow us:</strong>
-                          </p>
+                          <p style="font-size:16px;color:#666666"><strong>Follow us:</strong></p>
                         </td>
                       </tr>
                     </tbody>
@@ -84,42 +79,32 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
               </tr>
             </tbody>
           </table>
-          <!--[if mso]></td><td width="20"></td><td width="361" valign="top"><![endif]-->
+
           <table cellspacing="0" cellpadding="0" align="right" class="es-right">
             <tbody>
               <tr>
                 <td width="361" align="left" class="esd-container-frame">
-                  <table esd-img-prev-src esd-img-prev-position="center center" width="100%" cellspacing="0" cellpadding="0" style="background-position:center center">
+                  <table width="100%" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td align="left" class="esd-block-social es-p10t es-p5b es-m-txt-c" style="font-size:0">
+                        <td align="left" class="esd-block-social es-p10t es-p5b" style="font-size:0">
                           <table cellspacing="0" cellpadding="0" class="es-table-not-adapt es-social">
                             <tbody>
                               <tr>
-                                <td valign="top" align="center" class="es-p10r">
-                                  <a target="_blank" href="">
-                                    <img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/facebook-rounded-gray.png" alt="Fb" title="Facebook" width="32">
-                                  </a>
+                                <td align="center" class="es-p10r">
+                                  <a target="_blank" href=""><img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/facebook-rounded-gray.png" width="32"></a>
                                 </td>
-                                <td valign="top" align="center" class="es-p10r">
-                                  <a target="_blank" href="">
-                                    <img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/x-rounded-gray.png" alt="X" title="X" width="32">
-                                  </a>
+                                <td align="center" class="es-p10r">
+                                  <a target="_blank" href=""><img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/x-rounded-gray.png" width="32"></a>
                                 </td>
-                                <td valign="top" align="center" class="es-p10r">
-                                  <a target="_blank" href="">
-                                    <img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/instagram-rounded-gray.png" alt="Ig" title="Instagram" width="32">
-                                  </a>
+                                <td align="center" class="es-p10r">
+                                  <a target="_blank" href=""><img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/instagram-rounded-gray.png" width="32"></a>
                                 </td>
-                                <td valign="top" align="center" class="es-p10r">
-                                  <a target="_blank" href="">
-                                    <img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/youtube-rounded-gray.png" alt="Yt" title="Youtube" width="32">
-                                  </a>
+                                <td align="center" class="es-p10r">
+                                  <a target="_blank" href=""><img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/youtube-rounded-gray.png" width="32"></a>
                                 </td>
-                                <td valign="top" align="center" class="es-p10r">
-                                  <a target="_blank" href="">
-                                    <img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/linkedin-rounded-gray.png" alt="In" title="Linkedin" width="32">
-                                  </a>
+                                <td align="center" class="es-p10r">
+                                  <a target="_blank" href=""><img src="https://fwaosgn.stripocdn.email/content/assets/img/social-icons/rounded-gray/linkedin-rounded-gray.png" width="32"></a>
                                 </td>
                               </tr>
                             </tbody>
@@ -132,11 +117,12 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
               </tr>
             </tbody>
           </table>
-          <!--[if mso]></td></tr></table><![endif]-->
+
         </td>
       </tr>
+
       <tr>
-        <td esd-img-prev-src esd-img-prev-position="left top" align="left" class="esd-structure es-p5t es-p20b es-p20r es-p20l" style="background-position:left top">
+        <td align="left" class="esd-structure es-p5t es-p20b es-p20r es-p20l">
           <table width="100%" cellspacing="0" cellpadding="0">
             <tbody>
               <tr>
@@ -144,10 +130,8 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
                   <table width="100%" cellspacing="0" cellpadding="0">
                     <tbody>
                       <tr>
-                        <td esd-links-color="#666666" align="center" class="esd-block-text">
-                          <p style="font-size:14px">
-                            Contact us: &nbsp; irshadsha164<a target="_blank" href="mailto:your@mail.com" style="font-size:14px;color:#666666">@gmail.com</a>
-                          </p>
+                        <td align="center" class="esd-block-text">
+                          <p style="font-size:14px">Contact us: irshadsha164@gmail.com</p>
                         </td>
                       </tr>
                     </tbody>
@@ -158,6 +142,8 @@ export const EMAIL_VERIFY_TEMPLATE = `<td bgcolor="#fafafa" align="center" class
           </table>
         </td>
       </tr>
+
     </tbody>
   </table>
-</td>`
+</td>
+`;
