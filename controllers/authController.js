@@ -114,7 +114,7 @@ export const sendVerifyOtp = async (req, res) => {
                 to: [{ email: user.email }],
                 subject: "Verify your Email",
                 htmlContent: VERIFY_EMAIL_TEMPLATE
-                    .replace(/{{email}}/g, email)
+                    .replace(/{{email}}/g, user.email)
                     .replace(/{{otp}}/g, otp)
             });
 
